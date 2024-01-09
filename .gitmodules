@@ -1,0 +1,3 @@
+[submodule "Libraries/LibraryInteractionTest"]
+	path = Libraries/LibraryInteractionTest
+	url = https://github.com/riley-converse/LibraryInteractionTest.git
