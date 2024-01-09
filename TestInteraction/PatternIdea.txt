@@ -1,0 +1,87 @@
+﻿Find is a search class object. Takes a pattern as an argument. Can extract text or return first index of discovered pattern
+Find.ExtractText(htmlTag) 
+Find.ExtractAllText(htmlTag)
+Find.GetFirstIndex(htmlTag)
+Find.GetAllIndex(htmlTag)
+
+Pattern htmlTag = new Pattern();
+
+htmlTag.SetPrequisite(letter) // logic is just like setContent, but basically pattern does not activate until prequesite is meant. no presquestite = always active
+
+[Pattern] -> takes a sequence object, string, char as an argument 
+	  -> or takes a string which is then the text interpreted
+	  -> The SetContent could be changed to AddContent which would create an array of sequences.
+
+htmlTag.SetContent('<h') 							// for specific html tag
+htmlTag.SetContent('<' + letter) 						// for any html tag.
+htmlTag.SetContent('<' + letter + (number || symbol || letter).loop + '>') 	// get entire html tag (note, || and && can't be overloaded, but | and & can be.)
+htmlTag.SetContent('<' + (letter*5)) 						// Find html tag that starts with five letters
+htmlTag.SetContent('<' + letter.loop) 						// Get html tag name
+htmlTag.SetContent('<' + (letter || space))					// Get a html tag or any carrot followed by a space
+htmlTag.SetContent('<' + ~letter)						// The ~ could mean loop. ~letter=loop letter until a non letter is found.
+htmlTag.SetContent('<' + (~letter | number))					// Find the '<', then find number or letter. 
+										// If letter, loop until not letter, in which case a number can still be found after. 
+										// OR find number then find letter and loop untill not a letter.
+htmlTag.SetContent('<' + ~(letter | number))					// Find '<', then find number OR letter, loop until either a letter or number are not found. 
+htmlTag.SetContent('<' + ~letter, (false, true))				// Find the tag name (<html), then only enables letter as true for extraction/startingIndex) so="html" OR index:1-4
+
+possible ways sequences are given
+1) htmlTag.SetContent(Sequence.Char('<') + Sequence.letter)
+
+
+2) 
+Sequence leftCarrot = new Sequence('<')
+Sequence letter = new Sequence('a','b','c') // or use ascii code logic (new Sequence('a'-'z'))
+Sequence wildcard= new Sequence(always returns true)
+htmlTag.SetContent(leftCarrot + letter); // this basically matches "<d" 
+htmlTag.SetContent('<' + ~letter, (false, true)) // if we wanted only tag name extracted
+htmlTag.SetContent('<' + letter++) // finds the '<' and two letters.
+htmlTag.SetContent('<' + wildcard*5) // Finds '<' and the next 5 characters).
+htmlTag.SetContent(number>5) // Finds the next number that is greater then 5.
+htmlTag.SetContent((number>5)*2) // Finds the next two adjacent numbers that is greater then 5. example (556 3 60 34), returns 60 and 34, must be separated
+
+
+When a sequence is added to another sequence, the first sequence must be completed, then second sequence starts.
+When a sequence is multiple by a number, that sequence is repeated by that many times (by default a sequence happens once).Example, letter=find one letter, letter*3=find three letters).
+When a sequence is added to any character(5,a,O,%,etc), that character is treated like a separate sequence. '<'+letter= find carrot, then find a letter.
+
+
+
+htmlTag.SetDelimieter(!letter) // Break pattern matching at first sight of character which isn't a letter. For example ';' terminates pattern at ';', we stop trying to find pattern.
+// delimeter can be used for two things, have to choose which one. 
+// 1) It terminates a pattern. ('<' + ~letter) is terminated at '>'. But i'm not sure of the benfit here, since it would terminate at a non-letter anyways.
+// 2) It defines the separation between sequences. So terminator "space", means (~letter+~letter) finds "hello world", but I could've just done (~letter+space+~letter)
+// 3) It marks the end of a pattern, but similary to presiquite, it's a requirement for a pattern while not including it in the content. For example consider the following
+//    (letter*3) with delimeter of (number) means that using find would mean:
+//	abc3 = match , abc@ = not match , abc [space] = not match. The difference from this and (letter*3 + number) is that the determinator means not included in text, so extract=abc not abc3. 
+Advanced
+Patterns can take other patterns
+Sequence letter = new letter ('a-z');
+Pattern word = new Word(~letter);
+word.SetPresiquite(space); // since a word needs a beginning space
+word.SetDeterminator(space);
+Pattern sentence = new Pattern(word + word); Finds "hello world"
+
+Pattern bodyTag = new Pattern();
+
+The questions is, if we take in a sequence(which are chars) how do we also take in normal chars and integers?
+We could take in just chars, since sequence is chars, it's acceptable. But that would mean overload character operators (cause confusion).
+Perhaps it only takes Sequence objects
+
+//side
+think of moq objects
+Moq example = new Moq()
+example.Setup(ex => ex.RunMethod(It.IfAny<string>)).Returns("b); 
+
+Charset letter = new Charset("a-z");
+Charset space = new Charset(" ");
+
+Options
+Pattern word = new Pattern(space, ~letter, !letter)
+Pattern word = new Pattern(~letter); word.AddPresiquite(space); word.AddDelimiter(!letter)
+
+Pattern htmlTag = new Pattern(Charset.Anything, '<' + ~letter, !letter);
+Pattern htmlTag = new Pattern(Charset.Anything, Charset.Char('<') + Charset.Letter.Repeat(-1), Charset.Letter.Not);
+Pattern htmlTag = new Pattern(Charset.Anything, '<' + ~Charset.Letter, !Charset.Letter);
+Pattern htmlTag = new Pattern(Charset.Wildcard, '<' + 'h' + Charset.Letter.Repeat
+
