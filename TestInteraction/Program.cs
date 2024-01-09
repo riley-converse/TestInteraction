@@ -21,6 +21,8 @@
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "12abc"));
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "abc"));
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "123bc23abc5"));
+
+            Pattern testWord = new Pattern(Sequence.Letter * 3);
         }
     }
 }
