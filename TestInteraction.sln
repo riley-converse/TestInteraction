@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestInteraction", "TestInteraction\TestInteraction.csproj", "{AF2739F1-11F5-4F52-8A15-709D219D9547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestInteraction", "TestInteraction\TestInteraction.csproj", "{AF2739F1-11F5-4F52-8A15-709D219D9547}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9AB140A7-D234-4DCA-B753-C34D062426F1} = {9AB140A7-D234-4DCA-B753-C34D062426F1}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryInteractionTest", "Libraries\LibraryInteractionTest\LibraryInteractionTest\LibraryInteractionTest.csproj", "{9AB140A7-D234-4DCA-B753-C34D062426F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{AF2739F1-11F5-4F52-8A15-709D219D9547}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF2739F1-11F5-4F52-8A15-709D219D9547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF2739F1-11F5-4F52-8A15-709D219D9547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
