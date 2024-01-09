@@ -17,6 +17,19 @@ namespace TestInteraction
             _index = 0;
         }
 
+        public Pattern(params Pattern[] args)
+        {
+            List<Sequence> temp = new List<Sequence>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                for (int j = 0; j < args[i]._behavior.Length; j++)
+                {
+                    temp.Add(args[i]._behavior[j]);
+                }
+            }
+            _behavior = temp.ToArray();
+        }
+
         // Starts at beginning of string, runs pattern until each sequence is satisfied,
         // returns false if any sequence fails, returns true if it reaches the end
         public MatchResults Match(string str)
@@ -42,6 +55,11 @@ namespace TestInteraction
             if (seq.Match(str).MatchFound) { return true; }
             return false;
         }
+
+        /*public static Sequence operator +(Pattern d, Sequence left, Sequence right)
+        {
+            return new Sequence();
+        }*/
 
         public static MatchResults GetMatchTo(Pattern seq, string str)
         {

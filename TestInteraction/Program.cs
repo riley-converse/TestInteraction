@@ -1,9 +1,21 @@
-﻿namespace TestInteraction
+﻿using LibraryInteractionTest;
+namespace TestInteraction
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            Class1 testClass = new Class1("Hello", "World");
+            while (true)
+            {
+                var text = testClass.OutputText();
+                if (text != null) Console.WriteLine(text);
+                else
+                {
+                    break;
+                }
+            }
+
             Sequence characterA = new Sequence('a');
 
             Console.WriteLine("[Char A]Character a:" + characterA.Match('a'));
@@ -22,7 +34,12 @@
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "abc"));
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "123bc23abc5"));
 
-            Pattern testWord = new Pattern(Sequence.Letter * 3);
+            /*Pattern testWord = new Pattern(Sequence.Letter * 3);*/
+            Pattern test = new Pattern(Sequence.Letter.Repeat(5) | Sequence.Letter);
+            Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(test, "123bc23cbabc5"));
+            Pattern example = new Pattern(Sequence.Letter + Sequence.Letter);
+            Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(example, "123bc23cbabc5"));
+
         }
     }
 }
