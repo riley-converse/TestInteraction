@@ -47,6 +47,11 @@ namespace TestInteraction
             return array;
         }
 
+        public static Sequence operator ~(Sequence seq)
+        {
+            return new Sequence();
+        }
+
         /*public static Sequence operator *(Sequence sqc, int n)
         {
 
@@ -65,6 +70,11 @@ namespace TestInteraction
 
 
         public static Sequence operator +( Sequence seq, char c)
+        {
+            return new Sequence();
+        }
+
+        public static Sequence operator +(Pattern pat, Sequence seq)
         {
             return new Sequence();
         }

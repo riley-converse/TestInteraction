@@ -1,4 +1,5 @@
 ﻿using LibraryInteractionTest;
+
 namespace TestInteraction
 {
     internal class Program
@@ -39,6 +40,8 @@ namespace TestInteraction
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(test, "123bc23cbabc5"));
             Pattern example = new Pattern(Sequence.Letter + Sequence.Letter);
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(example, "123bc23cbabc5"));
+
+            Pattern testP = new Pattern(Sequence.Letter + ~Sequence.Letter + Sequence.Letter);
 
         }
     }
