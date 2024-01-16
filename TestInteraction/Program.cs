@@ -17,31 +17,35 @@ namespace TestInteraction
                 }
             }
 
-            Sequence characterA = new Sequence('a');
+            CharSet characterA = new CharSet('a');
 
             Console.WriteLine("[Char A]Character a:" + characterA.Match('a'));
             Console.WriteLine("[Char A]Character b:" + characterA.Match('b'));
 
-            Console.WriteLine("[Letter]Character a:" + Sequence.Letter.Match('a'));
-            Console.WriteLine("[Letter]Character 1:" + Sequence.Letter.Match('1'));
+            Console.WriteLine("[Letter]Character a:" + CharSet.Letter.Match('a'));
+            Console.WriteLine("[Letter]Character 1:" + CharSet.Letter.Match('1'));
 
-            Pattern word = new Pattern(Sequence.Letter, Sequence.Letter, Sequence.Letter);
-            Console.WriteLine("[Letter]String abc" + Pattern.Match(word,"a"));
-            Console.WriteLine("[Letter]String abc" + Pattern.Match(word, "a"));
+            Pattern word = new Pattern(CharSet.Letter, CharSet.Letter, CharSet.Letter);
+
 
             Console.WriteLine("[Letter] Index of 1abc: "+ PatternHelper.GetStartIndex(word, "156dc"));
+            Pattern twoLetters = new Pattern(CharSet.Letter + CharSet.Letter);
+            Console.WriteLine("[Letter] Index of 1abc: "+ PatternHelper.GetStartIndex(word, "156dc"));
+            Console.WriteLine("[Letter] Index of abc: " + PatternHelper.GetStartIndex(twoLetters, "5324ad6bg7"));
 
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "12abc"));
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "abc"));
-            Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(word, "123bc23abc5"));
+            Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(twoLetters, "123bc23abc5"));
 
-            /*Pattern testWord = new Pattern(Sequence.Letter * 3);*/
-            Pattern test = new Pattern(Sequence.Letter.Repeat(5) | Sequence.Letter);
+            /*Pattern testWord = new Pattern(CharSet.Letter * 3);*/
+            Pattern test = new Pattern(CharSet.Letter.Loop(5));
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(test, "123bc23cbabc5"));
-            Pattern example = new Pattern(Sequence.Letter + Sequence.Letter);
+            Pattern example = new Pattern(CharSet.Letter + CharSet.Letter);
             Console.WriteLine("[Letter] substring: " + PatternHelper.ExtractText(example, "123bc23cbabc5"));
 
-            Pattern testP = new Pattern(Sequence.Letter + ~Sequence.Letter + Sequence.Letter);
+           // Pattern testP = new Pattern(CharSet.Letter + ~CharSet.Letter + CharSet.Letter);
+            CharSet cool = CharSet.Letter;
+
 
         }
     }

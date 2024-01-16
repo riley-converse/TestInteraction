@@ -6,33 +6,24 @@ using System.Threading.Tasks;
 
 namespace TestInteraction
 {
-    internal static class PatternHelper
+    public static class PatternHelper
     {
-        public static int GetStartIndex(Pattern ptn, string str)
+        public static string? ExtractText(Pattern ptn, string txt)
         {
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (Pattern.Match(ptn, str.Substring(i)))
-                {
-                    return i;
-                }
-            }
+            var results = ptn.Match(txt);
+            if (results.MatchFound)
+                return (txt.Substring(results.StartIndex, (results.EndIndex-results.StartIndex)+1));
+            
+            return null;
+        }
+
+        public static int GetStartIndex(Pattern ptn, string txt)
+        {
+            var results = ptn.Match(txt);
+            if (results.MatchFound)
+                return (results.StartIndex);
             return -1;
         }
 
-        public static string ExtractText(Pattern ptn, string str)
-        {
-            Pattern.MatchResults results;
-            for (int i = 0; i < str.Length; i++)
-            {
-                results = Pattern.GetMatchTo(ptn, str.Substring(i));
-                if (results.MatchFound)
-                {
-                    return str.Substring(i,results.EndIndex);
-                }
-            }
-
-            return "NULL";
-        }
     }
 }

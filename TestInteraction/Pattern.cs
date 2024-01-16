@@ -7,65 +7,72 @@ using System.Threading.Tasks;
 
 namespace TestInteraction
 {
-    internal class Pattern
+    public class Pattern
     {
-        private readonly Sequence[] _behavior;
-        private readonly int _index;
-        public Pattern(params Sequence[] args) 
-        { 
-            _behavior = args;
-            _index = 0;
-        }
+        private readonly ICharSet[] _charSetDefinition;
 
+        public Pattern(params ICharSet[] args) 
+        { 
+            _charSetDefinition = args;
+        }
+        
+        // Breaks a pattern down into charsets and stores them in our definitions. 
         public Pattern(params Pattern[] args)
         {
-            List<Sequence> temp = new List<Sequence>();
+            List<ICharSet> temp = new List<ICharSet>();
             for (int i = 0; i < args.Length; i++)
             {
-                for (int j = 0; j < args[i]._behavior.Length; j++)
+                for (int j = 0; j < args[i]._charSetDefinition.Length; j++)
                 {
-                    temp.Add(args[i]._behavior[j]);
+                    temp.Add(args[i]._charSetDefinition[j]);
                 }
             }
-            _behavior = temp.ToArray();
+            _charSetDefinition = temp.ToArray();
         }
 
-        // Starts at beginning of string, runs pattern until each sequence is satisfied,
-        // returns false if any sequence fails, returns true if it reaches the end
+        // Loop through each internal definition and make sure we get an exact in sequential order. 
         public MatchResults Match(string str)
         {
-            int index = 0;
+            var startIndex = 0;
+            var endIndex = 0;
+            var stringIndex = 0;
+            for (var defIndex = 0; defIndex < _charSetDefinition.Length; defIndex++)
+            {
+                if (stringIndex >= str.Length) return new MatchResults(false, -1, -1);
+                if (_charSetDefinition[defIndex].Match(str[stringIndex]))
+                {
+                    if (defIndex == 0) {startIndex = stringIndex;}
+                }
+                else
+                {
+                    if (defIndex != 0) {stringIndex = startIndex;}
+                    defIndex = -1;
+                }
+                stringIndex++;
+            }
+
+            endIndex = stringIndex-1;
+            return (new MatchResults(true, startIndex, endIndex));
+        }
+        
+        // return the index of the first instance of a match being found. 
+        public int FindFirstInstance(string str, int definitionIndex=0)
+        {
+            var stringIndex = 0;
             foreach (char ch in str)
             {
-                if (_behavior[index].Match(ch))
-                {
-                    index++;
-                    if (index >= _behavior.Length)
-                    {
-                        return new MatchResults(true, index);
-                    }
-                }
-                else { return new MatchResults(false, -1); }
+                if (_charSetDefinition[definitionIndex].Match(ch))
+                    return stringIndex;
+                stringIndex++;
             }
-            return new MatchResults(false, -1);
+            return -1;
+        }
+        
+        public static Pattern operator +(Pattern left, Pattern right)
+        {
+            return new Pattern(left, right);
         }
 
-        public static bool Match(Pattern seq, string str)
-        {
-            if (seq.Match(str).MatchFound) { return true; }
-            return false;
-        }
-
-        /*public static Sequence operator +(Pattern d, Sequence left, Sequence right)
-        {
-            return new Sequence();
-        }*/
-
-        public static MatchResults GetMatchTo(Pattern seq, string str)
-        {
-            return seq.Match(str);
-        }
-
-        public record MatchResults(bool MatchFound, int EndIndex);
+        public record MatchResults(bool MatchFound, int StartIndex, int EndIndex);
     }
 }

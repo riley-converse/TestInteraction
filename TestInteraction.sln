@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestInteraction", "TestInte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryInteractionTest", "Libraries\LibraryInteractionTest\LibraryInteractionTest\LibraryInteractionTest.csproj", "{9AB140A7-D234-4DCA-B753-C34D062426F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestInteractionUnitTest", "TestInteractionUnitTest\TestInteractionUnitTest.csproj", "{D6E4A701-6922-4ED4-A187-15E62CFFB8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AB140A7-D234-4DCA-B753-C34D062426F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E4A701-6922-4ED4-A187-15E62CFFB8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E4A701-6922-4ED4-A187-15E62CFFB8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E4A701-6922-4ED4-A187-15E62CFFB8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E4A701-6922-4ED4-A187-15E62CFFB8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
